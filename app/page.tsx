@@ -11,7 +11,7 @@ export default function Home() {
   const [language, setLanguage] = useState<Language>('SE');
 
   const fetchQuote = async () => {
-    const response = await fetch('/api/quote', {
+    const response = await fetch(`/api/quote?language=${language}`, {
       method: 'GET',
     });
     const data = await response.json();
@@ -19,17 +19,12 @@ export default function Home() {
   };
 
   const toggleLanguage = () => {
-    if (language === 'SE') {
-      setLanguage('EN');
-    }
-    if (language === 'EN') {
-      setLanguage('SE');
-    }
+    setLanguage(language === 'SE' ? 'EN' : 'SE');
   };
 
   useEffect(() => {
     fetchQuote();
-  }, []);
+  }, [language]);
 
   const today = new Date().getDay();
   return (
