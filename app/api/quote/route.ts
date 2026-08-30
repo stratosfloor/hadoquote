@@ -18,7 +18,7 @@ export async function GET() {
       1000 /
       60 /
       60 /
-      24
+      24,
   );
   const randomQuote = quotes[Math.floor(i % quotes.length)];
 

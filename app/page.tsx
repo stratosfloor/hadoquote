@@ -2,9 +2,13 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
+
+export type Language = 'SE' | 'EN';
 
 export default function Home() {
-  const [quote, setQuote] = useState<string>('');
+  const [quote, setQuote] = useState<string | null>('');
+  const [language, setLanguage] = useState<Language>('SE');
 
   const fetchQuote = async () => {
     const response = await fetch('/api/quote', {
@@ -12,6 +16,15 @@ export default function Home() {
     });
     const data = await response.json();
     setQuote(data.message);
+  };
+
+  const toggleLanguage = () => {
+    if (language === 'SE') {
+      setLanguage('EN');
+    }
+    if (language === 'EN') {
+      setLanguage('SE');
+    }
   };
 
   useEffect(() => {
@@ -24,7 +37,6 @@ export default function Home() {
       <h1 className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center font-bold mb-10 sm:mb-14'>
         Dagens Hadoquote
       </h1>
-
       <main
         className={clsx(
           'flex flex-col gap-8 md:gap-12 items-center justify-center',
@@ -32,9 +44,11 @@ export default function Home() {
           today % 2 !== 0 && 'md:flex-row-reverse',
         )}
       >
-        <h2 className='text-2xl sm:text-3xl md:text-4xl font-medium italic text-center max-w-2xl px-2'>
-          &quot;{quote}&quot;
-        </h2>
+        {quote ? (
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-medium italic text-center max-w-2xl px-2'>
+            &quot;{quote}&quot;
+          </h2>
+        ) : null}
 
         <Image
           className={clsx(
@@ -48,6 +62,9 @@ export default function Home() {
           priority
         />
       </main>
+      <div className='flex justify-end items-center sm:justify-center md:justify-end lg:justify-end xl:justify-end'>
+        <LanguageSwitcher language={language} toggle={toggleLanguage} />
+      </div>
     </div>
   );
 }
