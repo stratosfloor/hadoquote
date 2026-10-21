@@ -69,7 +69,12 @@ export default function Home() {
       </main>
       <div className='flex justify-end items-center lg:justify-center xl:justify-end'>
         <LanguageSwitcher language={language} toggle={toggleLanguage} />
-        <button onClick={fetchRandomQuote}>Random</button>
+        <button
+          className='flex h-9 m-2 w-9 items-center justify-center rounded-full border border-gray-300 transition-colorshover:bg-gray-100'
+          onClick={fetchRandomQuote}
+        >
+          R
+        </button>
       </div>
     </div>
   );
