@@ -22,6 +22,15 @@ export default function Home() {
     setLanguage(language === 'SE' ? 'EN' : 'SE');
   };
 
+  const fetchRandomQuote = async () => {
+    const response = await fetch(`/api/quote/random`, {
+      method: 'GET',
+    });
+    const data = await response.json();
+    setQuote(data.message);
+    console.log(data.message);
+  };
+
   useEffect(() => {
     fetchQuote();
   }, [language]);
@@ -60,6 +69,7 @@ export default function Home() {
       </main>
       <div className='flex justify-end items-center lg:justify-center xl:justify-end'>
         <LanguageSwitcher language={language} toggle={toggleLanguage} />
+        <button onClick={fetchRandomQuote}>Random</button>
       </div>
     </div>
   );
